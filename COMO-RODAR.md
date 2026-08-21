@@ -7,15 +7,13 @@ Dois cliques em **`ABRIR-SISTEMA.bat`**.
 Abre uma janela preta com letras — é o motor do sistema, deixe aberta. Alguns
 segundos depois o navegador abre sozinho na tela de login.
 
-Entre com:
-
-- **E-mail:** `(removido)`
-- **Senha:** `(removido)`
+Entre com o e-mail e a senha da sua conta.
 
 Para desligar, feche a janela preta.
 
-> A senha acima é provisória e foi definida por mim. Troque quando puder, pelo
-> painel do Supabase em *Authentication → Users*.
+> Senha esquecida ou precisa trocar: painel do Supabase, em
+> *Authentication → Users*. Nunca guarde a senha neste arquivo — ele vai para
+> o repositório.
 
 ---
 
