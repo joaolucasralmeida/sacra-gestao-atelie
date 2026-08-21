@@ -1,26 +1,163 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-cormorant);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  /* Identidade Sacra Studio */
+  --color-ouro: var(--ouro);
+  --color-ouro-claro: var(--ouro-claro);
+  --color-ouro-escuro: var(--ouro-escuro);
+  --color-sucesso: var(--sucesso);
+  --color-sucesso-fraco: var(--sucesso-fraco);
+  --color-alerta: var(--alerta);
+  --color-alerta-fraco: var(--alerta-fraco);
+  --color-perigo: var(--perigo);
+  --color-perigo-fraco: var(--perigo-fraco);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-chart-1: var(--ouro);
+  --color-chart-2: var(--ouro-escuro);
+  --color-chart-3: var(--muted-foreground);
+  --color-chart-4: var(--sucesso);
+  --color-chart-5: var(--perigo);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/*
+  Tema escuro fixo — a identidade da Sacra Studio é preto e ouro.
+  Não há modo claro: a paleta da marca não sobrevive à inversão.
+*/
+:root,
+.dark {
+  --radius: 0.625rem;
+
+  /* Marca */
+  --ouro: #d0a050;
+  --ouro-claro: #e0b060;
+  --ouro-escuro: #b08030;
+
+  /* Superfícies */
+  --background: #000010;
+  --foreground: #f4f0e8;
+  --card: #08070d;
+  --card-foreground: #f4f0e8;
+  --popover: #08070d;
+  --popover-foreground: #f4f0e8;
+
+  /* Ações */
+  --primary: #d0a050;
+  --primary-foreground: #000010;
+  --secondary: #12101a;
+  --secondary-foreground: #f4f0e8;
+  --accent: #16131f;
+  --accent-foreground: #e0b060;
+
+  /* Texto auxiliar */
+  --muted: #12101a;
+  --muted-foreground: #b8b3aa;
+
+  /* Traços */
+  --border: color-mix(in srgb, #b08030 22%, transparent);
+  --input: color-mix(in srgb, #b08030 30%, transparent);
+  --ring: #d0a050;
+
+  /* Estados — discretos, nunca vibrantes */
+  --sucesso: #8fbf97;
+  --sucesso-fraco: color-mix(in srgb, #4e7a56 22%, transparent);
+  --alerta: #e0b060;
+  --alerta-fraco: color-mix(in srgb, #b08030 20%, transparent);
+  --perigo: #e08a8a;
+  --perigo-fraco: color-mix(in srgb, #8b2e2e 25%, transparent);
+  --destructive: #8b2e2e;
+
+  /* Menu lateral */
+  --sidebar: #000010;
+  --sidebar-foreground: #f4f0e8;
+  --sidebar-primary: #d0a050;
+  --sidebar-primary-foreground: #000010;
+  --sidebar-accent: #12101a;
+  --sidebar-accent-foreground: #e0b060;
+  --sidebar-border: color-mix(in srgb, #b08030 18%, transparent);
+  --sidebar-ring: #d0a050;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  /*
+    Valores financeiros alinham por dígito: coluna de dinheiro só é
+    comparável a olho se os algarismos tiverem a mesma largura.
+  */
+  .tabular {
+    font-variant-numeric: tabular-nums;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Fio dourado — o separador do brasão, reduzido ao essencial. */
+  .fio-ouro {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--ouro-escuro),
+      transparent
+    );
+    height: 1px;
+    border: 0;
+  }
 }
