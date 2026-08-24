@@ -1,0 +1,17 @@
+<!--
+  Modelo de referência dos e-mails do Sacra Studio.
+
+  Regras que valem para todos os arquivos desta pasta:
+
+  - Layout em <table>, estilo sempre inline. Clientes de e-mail ignoram
+    folhas de estilo externas e boa parte do CSS moderno.
+  - Nenhuma imagem: a maioria dos clientes bloqueia por padrão, e um e-mail
+    que depende de imagem chega quebrado. A marca aparece em texto.
+  - Fontes de sistema com fallback serifado. Google Fonts não carrega em
+    e-mail; Cormorant Garamond viraria Times, então Georgia é o alvo real.
+  - O link aparece também como texto puro, para quem usa cliente que não
+    renderiza HTML ou desconfia de botão.
+
+  Variáveis do Supabase: {{ .ConfirmationURL }}, {{ .Token }}, {{ .Email }},
+  {{ .SiteURL }}.
+-->

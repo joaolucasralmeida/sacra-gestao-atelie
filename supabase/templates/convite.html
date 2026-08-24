@@ -1,0 +1,51 @@
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#0b0a12;margin:0;padding:32px 12px;">
+  <tr>
+    <td align="center">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background-color:#000010;border:1px solid rgba(176,128,48,0.28);border-radius:10px;">
+        <tr>
+          <td style="padding:36px 36px 0 36px;text-align:center;">
+            <div style="font-family:Georgia,'Times New Roman',serif;font-size:25px;letter-spacing:0.10em;color:#d0a050;">SACRA STUDIO</div>
+            <div style="font-family:Georgia,'Times New Roman',serif;font-size:11px;letter-spacing:0.20em;color:#b8b3aa;padding-top:8px;">A ARTE É UM CAMINHO PARA DEUS</div>
+            <div style="height:1px;background-color:rgba(176,128,48,0.34);margin:26px 0 0 0;font-size:0;line-height:0;">&nbsp;</div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:30px 36px 0 36px;font-family:Helvetica,Arial,sans-serif;color:#f4f0e8;">
+            <h1 style="margin:0 0 18px 0;font-family:Georgia,'Times New Roman',serif;font-size:21px;font-weight:normal;color:#f4f0e8;">Você foi convidada para o Sacra Studio</h1>
+            <p style="margin:0 0 16px 0;font-size:15px;line-height:1.65;color:#d8d3ca;">
+              O acesso ao sistema de gestão do ateliê foi criado para <strong style="color:#f4f0e8;">{{ .Email }}</strong>.
+            </p>
+            <p style="margin:0 0 26px 0;font-size:15px;line-height:1.65;color:#d8d3ca;">
+              O botão abaixo abre o sistema. Depois de entrar, vá em <strong style="color:#f4f0e8;">Configurações</strong> e escolha sua senha.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:0 36px;" align="center">
+            <table role="presentation" cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="background-color:#d0a050;border-radius:6px;">
+                  <a href="{{ .ConfirmationURL }}" style="display:inline-block;padding:13px 32px;font-family:Helvetica,Arial,sans-serif;font-size:15px;font-weight:bold;color:#000010;text-decoration:none;">Aceitar convite</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:26px 36px 0 36px;font-family:Helvetica,Arial,sans-serif;">
+            <p style="margin:0 0 8px 0;font-size:12px;line-height:1.5;color:#8e897f;">Se o botão não funcionar, copie este endereço no navegador:</p>
+            <p style="margin:0;font-size:12px;line-height:1.5;word-break:break-all;"><a href="{{ .ConfirmationURL }}" style="color:#d0a050;text-decoration:underline;">{{ .ConfirmationURL }}</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:26px 36px 34px 36px;font-family:Helvetica,Arial,sans-serif;">
+            <div style="height:1px;background-color:rgba(176,128,48,0.20);margin:0 0 18px 0;font-size:0;line-height:0;">&nbsp;</div>
+            <p style="margin:0;font-size:12px;line-height:1.6;color:#8e897f;">
+              O link vale por 24 horas e só pode ser usado uma vez. Se você não esperava este convite, ignore este e-mail.
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
