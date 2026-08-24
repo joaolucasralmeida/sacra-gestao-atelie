@@ -8,6 +8,7 @@
  */
 import { readFileSync } from "node:fs";
 import { createClient } from "@supabase/supabase-js";
+import { abortar, encerrar } from "./sessao.mjs";
 
 const env = Object.fromEntries(
   readFileSync(new URL("../.env.local", import.meta.url), "utf8")
@@ -22,8 +23,7 @@ const env = Object.fromEntries(
 const [email, senha, nome] = process.argv.slice(2);
 
 if (!email || !senha) {
-  console.error("uso: node scripts/criar-dona.mjs <email> <senha> [nome]");
-  process.exit(1);
+  abortar("uso: node scripts/criar-dona.mjs <email> <senha> [nome]");
 }
 
 const supabase = createClient(
@@ -38,8 +38,7 @@ const { data, error } = await supabase.auth.signUp({
 });
 
 if (error) {
-  console.error("Falhou:", error.message);
-  process.exit(1);
+  abortar(`Falhou: ${error.message}`);
 }
 
 if (!data.session) {
@@ -48,7 +47,7 @@ if (!data.session) {
   );
   console.log("Confirme pelo link enviado, ou desligue a confirmação em");
   console.log("Authentication > Sign In / Providers > Confirm email.");
-  process.exit(2);
+  encerrar(2);
 }
 
 console.log("Conta criada e sessão aberta.");

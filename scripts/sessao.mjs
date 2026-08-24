@@ -13,6 +13,40 @@
 import { readFileSync } from "node:fs";
 import { createClient } from "@supabase/supabase-js";
 
+/**
+ * Erro que encerra o script com mensagem, sem rastro de pilha.
+ *
+ * Existe porque `process.exit()` derruba o Node no Windows com
+ * "Assertion failed ... UV_HANDLE_CLOSING" quando ainda há conexões do
+ * `fetch` fechando — que é sempre o caso depois de falar com o Supabase.
+ * Lançar um erro deixa o processo terminar sozinho, do jeito certo.
+ */
+class SaidaComErro extends Error {}
+
+let codigoDeSaida = 1;
+
+process.on("uncaughtException", (erro) => {
+  if (!(erro instanceof SaidaComErro)) throw erro;
+  // A mensagem já foi impressa por `abortar`; aqui só o código de saída.
+  process.exitCode = codigoDeSaida;
+});
+
+/**
+ * Imprime a mensagem e interrompe o script. Nunca retorna.
+ *
+ * `codigo` distingue os motivos para quem chama o script de outro programa.
+ */
+export function abortar(mensagem, codigo = 1) {
+  console.error(mensagem);
+  encerrar(codigo);
+}
+
+/** Interrompe o script sem imprimir nada. Nunca retorna. */
+export function encerrar(codigo = 0) {
+  codigoDeSaida = codigo;
+  throw new SaidaComErro(`saida `);
+}
+
 export function lerEnvLocal() {
   return Object.fromEntries(
     readFileSync(new URL("../.env.local", import.meta.url), "utf8")
@@ -39,12 +73,11 @@ export async function entrarComoDona() {
   const senha = process.env.SACRA_SENHA;
 
   if (!email || !senha) {
-    console.error(
+    abortar(
       "Faltam credenciais. Defina SACRA_EMAIL e SACRA_SENHA no ambiente:\n" +
         '  $env:SACRA_EMAIL = "seu@email"\n' +
         '  $env:SACRA_SENHA = "sua-senha"',
     );
-    process.exit(1);
   }
 
   const db = criarCliente();
@@ -53,10 +86,7 @@ export async function entrarComoDona() {
     password: senha,
   });
 
-  if (error) {
-    console.error("Login falhou:", error.message);
-    process.exit(1);
-  }
+  if (error) abortar(`Login falhou: ${error.message}`);
 
   return { db, usuario: data.user };
 }
