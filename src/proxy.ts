@@ -12,9 +12,26 @@ const ROTAS_PUBLICAS = ["/login", "/auth"];
 export async function proxy(request: NextRequest) {
   let resposta = NextResponse.next({ request });
 
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const chave = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  // Sem as variáveis, `createServerClient` estoura e a hospedagem devolve um
+  // 500 mudo em toda rota — sem pista de qual é o problema. Como elas são
+  // embutidas no build, esquecer de configurá-las antes do primeiro deploy é
+  // o erro mais fácil de cometer e o mais difícil de diagnosticar.
+  if (!url || !chave) {
+    return new NextResponse(
+      "Configuração ausente: defina NEXT_PUBLIC_SUPABASE_URL e " +
+        "NEXT_PUBLIC_SUPABASE_ANON_KEY na hospedagem e publique de novo. " +
+        "Elas são embutidas durante o build, então só valem a partir do " +
+        "próximo deploy.",
+      { status: 503, headers: { "content-type": "text/plain; charset=utf-8" } },
+    );
+  }
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    url,
+    chave,
     {
       cookies: {
         getAll: () => request.cookies.getAll(),
