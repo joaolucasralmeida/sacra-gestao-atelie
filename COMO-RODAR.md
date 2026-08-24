@@ -11,9 +11,14 @@ Entre com o e-mail e a senha da sua conta.
 
 Para desligar, feche a janela preta.
 
-> Senha esquecida ou precisa trocar: painel do Supabase, em
-> *Authentication → Users*. Nunca guarde a senha neste arquivo — ele vai para
-> o repositório.
+> **Trocar a senha:** dentro do sistema, em *Configurações*. Não é preciso
+> saber a senha atual.
+>
+> **Senha esquecida:** peça um link de recuperação no painel do Supabase, em
+> *Authentication → Users*. O link abre o sistema já logado; vá em
+> *Configurações* e defina a nova senha.
+>
+> Nunca guarde a senha neste arquivo — ele vai para o repositório.
 
 ---
 
@@ -48,9 +53,11 @@ repositório git da pasta antiga.
   tudo vai para um banco de verdade e sobrevive a atualizar a página.
 - **A tela atualiza sozinha quando eu mexo no código.** Pode deixar aberto
   enquanto trabalhamos.
-- **Nem todas as telas existem ainda.** Produtos está pronto. Kits, Vender,
-  A receber, Clientes e Início ainda vão ser construídos — os itens do menu
-  já aparecem, mas levam a páginas vazias.
+- **Todas as telas da Fase 1 já existem.** Início, Produtos, Kits, Vender,
+  A receber e Clientes estão construídas e ligadas ao banco. Relatórios ficou
+  para a Fase 2 e ainda não aparece no menu.
+- **O que falta é acabamento.** A logo definitiva ainda não chegou, então o
+  brasão que aparece hoje é um marcador de lugar.
 
 ---
 
@@ -64,6 +71,7 @@ repositório git da pasta antiga.
 | "Port 3100 is already in use" | Já tem outra janela preta aberta. Feche a antiga. |
 | O navegador não abre sozinho | Digite `localhost:3100` na barra de endereço. |
 | "Invalid API key" ou erro de login | O projeto do Supabase pode ter sido pausado por inatividade. Entre no painel do Supabase e clique em despausar. |
+| A página abre em `localhost:3000` e diz que não consegue conectar | O endereço de retorno do login está apontando para a porta errada. Me avise: o ajuste é no painel do Supabase, em *Authentication → URL Configuration*. |
 
 Em qualquer caso: tire um print da janela preta e me mande. O texto de erro dela
 diz exatamente o que houve.
