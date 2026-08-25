@@ -26,7 +26,7 @@ Para desligar, feche a janela preta.
 
 | O quê | Onde |
 |---|---|
-| O projeto | `C:\Users\usuario\Documents\sacra-studio` |
+| O projeto | `%USERPROFILE%\Documents\sacra-studio` (a pasta Documentos da sua conta) |
 | Endereço local | `http://localhost:3100` |
 | Banco de dados | Supabase (nuvem), projeto `cscbqkaqployecefdxkl` |
 | Migrations do banco | `supabase\migrations\` |
