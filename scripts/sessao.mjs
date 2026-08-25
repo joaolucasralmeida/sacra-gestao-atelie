@@ -90,3 +90,15 @@ export async function entrarComoDona() {
 
   return { db, usuario: data.user };
 }
+
+/**
+ * Solta a entrada do teclado para o processo poder encerrar sozinho.
+ *
+ * `process.stdin` só vira um stream de verdade depois de alguém lê-lo. Um
+ * script que termina antes disso — por erro de argumento, por exemplo —
+ * encontra um objeto sem `unref`, e a chamada direta derrubaria o processo
+ * bem na hora de mostrar a mensagem de erro.
+ */
+export function liberarEntrada() {
+  if (typeof process.stdin.unref === "function") process.stdin.unref();
+}

@@ -12,7 +12,7 @@
  * uso: node scripts/definir-senha.mjs <email>
  */
 import { createInterface } from "node:readline";
-import { lerEnvLocal } from "./sessao.mjs";
+import { lerEnvLocal, liberarEntrada } from "./sessao.mjs";
 
 const url = lerEnvLocal().NEXT_PUBLIC_SUPABASE_URL;
 
@@ -110,4 +110,4 @@ try {
 
 // O processo encerra sozinho: sem `process.exit`, que no Windows derruba o
 // Node com uma asserção quando a leitura do teclado ainda está fechando.
-process.stdin.unref();
+liberarEntrada();
