@@ -9,12 +9,16 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
+export type Papel = "dona" | "vendedor";
+
 export type ItemNav = {
   href: string;
   rotulo: string;
   icone: LucideIcon;
   /** Aparece na barra inferior do celular. */
   principal?: boolean;
+  /** Quem enxerga o item. Ausente significa só a dona. */
+  papeis?: Papel[];
 };
 
 /**
@@ -27,13 +31,45 @@ export type ItemNav = {
  * sistema e ganhou lugar próprio.
  *
  * "Relatórios" entra na Fase 2, junto com o conteúdo.
+ *
+ * `papeis` acompanha o RLS: o vendedor não tem leitura de produtos, kits,
+ * clientes, vendas nem configurações do ateliê, então mostrar esses itens
+ * para ele só renderia telas vazias sem explicação. Item sem `papeis` é
+ * só da dona — assim uma tela nova nasce restrita, e liberar é uma decisão
+ * explícita.
  */
 export const ITENS_NAV: ItemNav[] = [
   { href: "/", rotulo: "Início", icone: Home, principal: true },
-  { href: "/vender", rotulo: "Vender", icone: ShoppingBag, principal: true },
+  {
+    href: "/vender",
+    rotulo: "Vender",
+    icone: ShoppingBag,
+    principal: true,
+    papeis: ["dona", "vendedor"],
+  },
   { href: "/a-receber", rotulo: "A receber", icone: Wallet, principal: true },
   { href: "/produtos", rotulo: "Produtos", icone: Boxes, principal: true },
   { href: "/kits", rotulo: "Kits", icone: Gem },
   { href: "/clientes", rotulo: "Clientes", icone: Users },
-  { href: "/configuracoes", rotulo: "Configurações", icone: Settings },
+  {
+    href: "/configuracoes",
+    rotulo: "Configurações",
+    icone: Settings,
+    papeis: ["dona", "vendedor"],
+  },
 ];
+
+/** Itens que este papel pode ver. */
+export function itensDoPapel(papel: Papel): ItemNav[] {
+  return ITENS_NAV.filter((item) =>
+    item.papeis ? item.papeis.includes(papel) : papel === "dona",
+  );
+}
+
+/** Rotas liberadas para o vendedor, derivadas do próprio menu. */
+export const ROTAS_DO_VENDEDOR = itensDoPapel("vendedor").map(
+  (item) => item.href,
+);
+
+/** Para onde mandar quem tentou entrar onde não pode. */
+export const INICIO_DO_VENDEDOR = "/vender";

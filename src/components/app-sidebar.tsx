@@ -15,16 +15,25 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Simbolo } from "@/components/marca/brasao";
-import { ITENS_NAV } from "@/components/navegacao/itens";
+import {
+  INICIO_DO_VENDEDOR,
+  itensDoPapel,
+  type Papel,
+} from "@/components/navegacao/itens";
 import { sair } from "@/app/login/actions";
 
 export function AppSidebar({
   usuario,
   ...props
 }: React.ComponentProps<typeof Sidebar> & {
-  usuario: { nome: string; papel: "dona" | "vendedor" };
+  usuario: { nome: string; papel: Papel };
 }) {
   const pathname = usePathname();
+
+  const itens = itensDoPapel(usuario.papel);
+
+  // A dona começa no painel; o vendedor não tem acesso a ele.
+  const inicio = usuario.papel === "dona" ? "/" : INICIO_DO_VENDEDOR;
 
   const ativo = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -37,7 +46,7 @@ export function AppSidebar({
             <SidebarMenuButton
               size="lg"
               className="data-[slot=sidebar-menu-button]:!p-1.5"
-              render={<Link href="/" />}
+              render={<Link href={inicio} />}
             >
               <Simbolo className="size-7 shrink-0" />
               <span className="font-heading text-lg tracking-wide">
@@ -52,7 +61,7 @@ export function AppSidebar({
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {ITENS_NAV.map(({ href, rotulo, icone: Icone }) => (
+              {itens.map(({ href, rotulo, icone: Icone }) => (
                 <SidebarMenuItem key={href}>
                   <SidebarMenuButton
                     isActive={ativo(href)}

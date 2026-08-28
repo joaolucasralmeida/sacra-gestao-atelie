@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ITENS_NAV } from "./itens";
+import { itensDoPapel, type Papel } from "./itens";
 
 /**
  * Barra inferior no celular.
@@ -19,10 +19,12 @@ import { ITENS_NAV } from "./itens";
  * consulta preço e estoque. Os quatro destinos frequentes ficam ao alcance
  * do polegar; o resto vai para "Mais".
  */
-export function BarraInferior() {
+export function BarraInferior({ papel }: { papel: Papel }) {
   const pathname = usePathname();
-  const principais = ITENS_NAV.filter((item) => item.principal);
-  const secundarios = ITENS_NAV.filter((item) => !item.principal);
+
+  const itens = itensDoPapel(papel);
+  const principais = itens.filter((item) => item.principal);
+  const secundarios = itens.filter((item) => !item.principal);
 
   const ativo = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);

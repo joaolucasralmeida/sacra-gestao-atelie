@@ -32,7 +32,7 @@ export default async function LayoutApp({ children }: LayoutProps<"/">) {
 
         {/* No celular o menu lateral vira gaveta; a barra inferior mantém os
             quatro destinos frequentes ao alcance do polegar. */}
-        <BarraInferior />
+        <BarraInferior papel={usuario.papel} />
       </SidebarInset>
     </SidebarProvider>
   );

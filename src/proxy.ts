@@ -1,6 +1,11 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+import {
+  INICIO_DO_VENDEDOR,
+  ROTAS_DO_VENDEDOR,
+} from "@/components/navegacao/itens";
+
 const ROTAS_PUBLICAS = ["/login", "/auth"];
 
 /**
@@ -61,6 +66,28 @@ export async function proxy(request: NextRequest) {
     // Guarda para onde a pessoa queria ir, e devolve ela lá depois do login.
     destino.searchParams.set("proximo", caminho);
     return NextResponse.redirect(destino);
+  }
+
+  // O papel decide o que ele alcança. A lista vem do próprio menu, então
+  // uma tela nova nasce restrita à dona: liberar exige entrar em `itens.ts`
+  // e dizer isso em voz alta.
+  if (user && !publica) {
+    const { data: perfil } = await supabase
+      .from("perfis")
+      .select("papel")
+      .eq("id", user.id)
+      .single();
+
+    const permitida = ROTAS_DO_VENDEDOR.some(
+      (rota) => caminho === rota || caminho.startsWith(`${rota}/`),
+    );
+
+    if (perfil?.papel === "vendedor" && !permitida) {
+      const destino = request.nextUrl.clone();
+      destino.pathname = INICIO_DO_VENDEDOR;
+      destino.search = "";
+      return NextResponse.redirect(destino);
+    }
   }
 
   if (user && caminho === "/login") {
