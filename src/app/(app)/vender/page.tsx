@@ -58,22 +58,39 @@ export default async function PaginaVender() {
   } else {
     // `vw_produtos` e `vw_kits` carregam custo e margem, e o RLS as fecha para
     // o vendedor — consultá-las aqui devolveria lista vazia, sem dizer por quê.
-    // `vw_catalogo` mostra o mesmo catálogo sem os números que ele não deve
-    // ver. Kits ficam de fora: não existe view equivalente para eles.
-    const { data: catalogo } = await supabase
-      .from("vw_catalogo")
-      .select("id, nome, sku, preco_venda_centavos, estoque")
-      .eq("ativo", true)
-      .order("nome");
+    // As duas views de catálogo mostram o mesmo acervo sem os números que ele
+    // não deve ver.
+    const [{ data: catalogo }, { data: catalogoKits }] = await Promise.all([
+      supabase
+        .from("vw_catalogo")
+        .select("id, nome, sku, preco_venda_centavos, estoque")
+        .eq("ativo", true)
+        .order("nome"),
+      supabase
+        .from("vw_catalogo_kits")
+        .select("id, nome, preco_centavos, estoque")
+        .eq("ativo", true)
+        .order("nome"),
+    ]);
 
-    vendaveis = (catalogo ?? []).map((p) => ({
-      tipo: "produto" as const,
-      id: p.id,
-      nome: p.nome,
-      busca: `${p.nome} ${p.sku ?? ""}`.toLowerCase(),
-      precoCentavos: p.preco_venda_centavos,
-      estoque: p.estoque,
-    }));
+    vendaveis = [
+      ...(catalogo ?? []).map((p) => ({
+        tipo: "produto" as const,
+        id: p.id,
+        nome: p.nome,
+        busca: `${p.nome} ${p.sku ?? ""}`.toLowerCase(),
+        precoCentavos: p.preco_venda_centavos,
+        estoque: p.estoque,
+      })),
+      ...(catalogoKits ?? []).map((k) => ({
+        tipo: "kit" as const,
+        id: k.id,
+        nome: k.nome,
+        busca: k.nome.toLowerCase(),
+        precoCentavos: k.preco_centavos,
+        estoque: k.estoque,
+      })),
+    ];
   }
 
   // Sem `clientes` o painel não oferece parcelamento — que é o certo, já que

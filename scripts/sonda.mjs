@@ -30,6 +30,7 @@ const alvos = [
   "formas_pagamento",
   "eventos",
   "vw_catalogo",
+  "vw_catalogo_kits",
   "vw_produtos",
   "vw_parcelas",
   "vw_kits",
