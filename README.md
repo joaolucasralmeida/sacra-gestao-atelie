@@ -7,6 +7,11 @@ eventos da diocese.
 
 O sistema centraliza produção, estoque, kits, vendas e contas a receber.
 
+> **Construído em cerca de uma semana** (20 a 28 ago 2026) com o
+> [Claude Code](https://claude.com/claude-code) como par de programação.
+> Eu levantei o problema com a cliente, tomei as decisões de produto descritas
+> abaixo e revisei cada entrega. O agente escreveu o código e os testes.
+
 ---
 
 ## O problema real, e por que ele muda o desenho
@@ -147,3 +152,23 @@ supabase/migrations/  schema, views, funções, RLS
 
 O diretório `lib/dominio` não importa React nem Supabase de propósito: são
 funções puras, e é por isso que dá para testá-las sem subir nada.
+
+---
+
+## Como a IA entrou no processo
+
+- **O briefing virou regras antes de virar código.** As decisões acima (dinheiro
+  em centavos, estoque como livro-razão, RLS por papel) foram fechadas em
+  conversa e só depois implementadas, para o agente seguir o mesmo modelo em
+  todas as telas.
+- **Domínio puro e testado.** `lib/dominio` não importa React nem Supabase. Assim
+  dá para pedir ao agente uma mudança de regra e conferir pelos testes que nada
+  quebrou em silêncio.
+- **Aceitação contra o banco real.** O `scripts/aceitacao.mjs` roda 47
+  verificações de ponta a ponta, inclusive se um usuário anônimo consegue ler
+  alguma tabela.
+
+---
+
+*E-mails e dados de contas foram trocados por valores de exemplo nesta versão
+pública.*
